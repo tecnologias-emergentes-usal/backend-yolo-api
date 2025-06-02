@@ -34,6 +34,7 @@ venv\Scripts\activate        # Windows
 
 ```bash
 pip install -r requirements.txt
+sudo apt install -y libgl1 # En Linux
 ```
 
 > Esto incluye: `fastapi`, `uvicorn`, `ultralytics`
@@ -122,5 +123,5 @@ YoloAPIProject/
 
 ## 🧠 Autor
 
-Desarrollado por Federico Stragliati.  
+Desarrollado por Federico Stragliati y equipo Infraestructura.  
 [GitHub](https://github.com/federicostragliati)
