@@ -1,6 +1,6 @@
 from ultralytics import YOLO
 
-modelo = YOLO("modelos/perro_detector.pt")  # Cambiar por tu modelo
+modelo = YOLO("modelos/yolov8n.pt")  # Cambiar por el modelo a evaluar
 
 # Guarda el resultado más reciente
 resultado_actual = {}
