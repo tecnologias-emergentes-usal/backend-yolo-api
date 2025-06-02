@@ -115,7 +115,7 @@ YoloAPIProject/
 
 ## 📌 Notas
 
-- Se usa el modelo YOLOv8n (nano) por defecto. Se puede cambiar fácilmente por otro (`s`, `m`, `l`, etc.).
+- Se actualizo al modelo "yolo11m-seg.pt" con el cual el equipo de IA realizo las pruebas.
 - No se guarda el historial. Cada nueva imagen sobreescribe el resultado anterior.
 - No se realiza validación de tipo de archivo aún.
 
