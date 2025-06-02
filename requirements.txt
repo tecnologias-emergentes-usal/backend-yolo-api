@@ -1,3 +1,4 @@
 fastapi~=0.115.12
 uvicorn
 ultralytics
+python-multipart
