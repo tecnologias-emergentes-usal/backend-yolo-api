@@ -1,8 +1,19 @@
 from fastapi import FastAPI, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
 from app.model import procesar_imagen, obtener_resultado
 import os, shutil
 
 app = FastAPI()
+
+# Permitir todos los CORS (cosas malvadas)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Permite todos los orígenes
+    allow_credentials=False,
+    allow_methods=["*"],    # Permite todos los métodos (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],    # Permite todas las cabeceras
+)
+
 UPLOAD_DIR = "static"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
