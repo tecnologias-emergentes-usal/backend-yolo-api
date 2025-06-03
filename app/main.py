@@ -5,6 +5,8 @@ import os, shutil
 
 app = FastAPI()
 
+origins = ["*"]
+
 # Permitir todos los CORS (cosas malvadas)
 app.add_middleware(
     CORSMiddleware,
