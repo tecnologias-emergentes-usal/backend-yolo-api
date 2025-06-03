@@ -3,7 +3,7 @@ from ultralytics import YOLO
 modelo = YOLO("modelos/yolov8n.pt")  # Cambiar por el modelo a evaluar
 
 # Guarda el resultado más reciente
-resultado_actual = {}
+resultado_actual = []
 
 def procesar_imagen(ruta_imagen: str):
     global resultado_actual
@@ -23,7 +23,10 @@ def procesar_imagen(ruta_imagen: str):
             "class_name": modelo.names[int(box.cls[0])]
         })
 
-    resultado_actual = {"predictions": predicciones}
+    resultado_actual.append({"predictions": predicciones})
 
 def obtener_resultado():
-    return resultado_actual
+    if resultados_pendientes:
+    	return resultados_pendientes.pop(0)
+    else
+    	return None
