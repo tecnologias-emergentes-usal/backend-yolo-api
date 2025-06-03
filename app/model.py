@@ -26,7 +26,7 @@ def procesar_imagen(ruta_imagen: str):
     resultado_actual.append({"predictions": predicciones})
 
 def obtener_resultado():
-    if resultados_pendientes:
-    	return resultados_pendientes.pop(0)
+    if resultado_actual:
+    	return resultado_actual.pop(0)
     else:
     	return None
