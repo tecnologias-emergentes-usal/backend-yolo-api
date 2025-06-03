@@ -28,5 +28,5 @@ def procesar_imagen(ruta_imagen: str):
 def obtener_resultado():
     if resultados_pendientes:
     	return resultados_pendientes.pop(0)
-    else
+    else:
     	return None
