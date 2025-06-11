@@ -1,0 +1,42 @@
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
+
+const char* ssid = "TU_SSID";
+const char* password = "TU_PASSWORD";
+
+ESP8266WebServer server(80);
+
+const int pinLuz = D1;  // Ajustá el pin que uses
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(pinLuz, OUTPUT);
+  digitalWrite(pinLuz, LOW);  // Apaga al inicio
+
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("");
+  Serial.print("IP del ESP8266: ");
+  Serial.println(WiFi.localIP());
+
+  server.on("/luz/on", []() {
+    digitalWrite(pinLuz, HIGH);
+    server.send(200, "text/plain", "Luz encendida");
+  });
+
+  server.on("/luz/off", []() {
+    digitalWrite(pinLuz, LOW);
+    server.send(200, "text/plain", "Luz apagada");
+  });
+
+  server.begin();
+  Serial.println("Servidor listo");
+}
+
+void loop() {
+  server.handleClient();
+}
