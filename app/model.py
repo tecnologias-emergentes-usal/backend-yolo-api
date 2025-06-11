@@ -25,6 +25,14 @@ def procesar_imagen(ruta_imagen: str):
 
     resultado_actual.append({"predictions": predicciones})
 
+    # ✅ Borrar imagen luego de procesarla
+    import os
+    try:
+        os.remove(ruta_imagen)
+        print(f"Imagen eliminada: {ruta_imagen}")
+    except Exception as e:
+        print(f"⚠️ No se pudo eliminar la imagen: {ruta_imagen} ({e})")
+
 def obtener_resultado():
     if resultado_actual:
     	return resultado_actual.pop(0)
