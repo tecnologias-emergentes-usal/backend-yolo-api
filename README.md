@@ -18,7 +18,7 @@ API REST desarrollada con **FastAPI** que permite enviar una imagen a un modelo 
 1. **Clonar el repositorio:**
 
 ```bash
-git clone https://github.com/federicostragliati/YoloAPIProject.git
+git clone https://github.com/tecnologias-emergentes-usal/backend-yolo-api.git
 cd YoloAPIProject
 ```
 
@@ -125,3 +125,5 @@ YoloAPIProject/
 
 Desarrollado por Federico Stragliati y equipo Infraestructura.  
 [GitHub](https://github.com/federicostragliati)
+[GitHub](https://github.com/GermanUSAL)
+
