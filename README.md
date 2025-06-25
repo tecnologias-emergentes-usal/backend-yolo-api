@@ -10,6 +10,7 @@ API REST desarrollada con **FastAPI** que permite enviar una imagen a un modelo 
 - pip (gestor de paquetes)
 - Entorno virtual recomendado (venv)
 - Conexión a internet (para descargar el modelo YOLO si no está en local)
+- Docker y Docker Compose (para ejecutar Kafka)
 
 ---
 
@@ -37,7 +38,7 @@ pip install -r requirements.txt
 sudo apt install -y libgl1 # En Linux
 ```
 
-> Esto incluye: `fastapi`, `uvicorn`, `ultralytics`
+> Esto incluye: `fastapi`, `uvicorn`, `ultralytics`, `kafka-python`
 
 4. **(Opcional) Descargar manualmente el modelo:**
 
@@ -49,6 +50,24 @@ Si querés tener el archivo `.pt` en el proyecto:
 ---
 
 ## 🚀 Cómo correr la API
+
+### 1. Iniciar Kafka y Zookeeper
+
+Desde la raíz del proyecto:
+
+```bash
+docker-compose up -d
+```
+
+Esto iniciará:
+- Zookeeper en el puerto 2181
+- Kafka en el puerto 9092
+- Kafdrop (interfaz web para Kafka) en el puerto 9000
+- API YOLO en el puerto 8000
+
+Puedes acceder a la interfaz de Kafdrop en `http://localhost:9000` para monitorear los tópicos y mensajes de Kafka.
+
+### 2. Iniciar la API (si no usas Docker)
 
 Desde la raíz del proyecto:
 
@@ -73,12 +92,12 @@ Usar Swagger UI:
 - Cargar un archivo (campo `file`)
 - Hacer clic en "Execute"
 
-Esto procesa la imagen con el modelo YOLO.
+Esto procesa la imagen con el modelo YOLO y publica las predicciones en el tópico de Kafka.
 
 ### 2. Consultar el resultado (GET)
 
 Ir a `/resultado` y hacer clic en "Execute"  
-Se devuelve un JSON con todas las detecciones:
+Se devuelve un JSON con todas las detecciones desde Kafka:
 
 ```json
 {
@@ -104,11 +123,14 @@ Se devuelve un JSON con todas las detecciones:
 YoloAPIProject/
 ├── app/
 │   ├── main.py          # API FastAPI
-│   ├── model.py         # Procesamiento YOLO
+│   ├── model.py         # Procesamiento YOLO y Kafka
 │   └── __init__.py
 ├── modelos/             # Modelo YOLO (.pt)
 ├── static/              # Imágenes temporales
 ├── requirements.txt     # Dependencias
+├── docker-compose.yml   # Configuración de Kafka y Zookeeper
+├── wait-for-kafka.sh    # Script para esperar a Kafka
+├── Dockerfile           # Configuración para Docker
 ```
 
 ---
@@ -116,14 +138,18 @@ YoloAPIProject/
 ## 📌 Notas
 
 - Se actualizo al modelo "yolo11m-seg.pt" con el cual el equipo de IA realizo las pruebas.
-- No se guarda el historial. Cada nueva imagen sobreescribe el resultado anterior.
-- No se realiza validación de tipo de archivo aún.
+- Las predicciones ahora se publican en un tópico de Kafka llamado 'yolo-predictions'.
+- Cada usuario puede suscribirse al tópico de Kafka para recibir las predicciones.
+- Se incluye Kafdrop como interfaz web para monitorear los tópicos y mensajes de Kafka.
+- Si Kafka no está disponible, se utiliza un almacenamiento local como fallback.
 
 ---
 
-## 🧠 Autor
+## 🧠 Autores
 
 Desarrollado por Federico Stragliati y equipo Infraestructura.  
 [GitHub](https://github.com/federicostragliati)
 [GitHub](https://github.com/GermanUSAL)
+
+Integración con Kafka por el equipo de Mensajería de Colas.
 
