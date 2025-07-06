@@ -1,0 +1,47 @@
+# .github/workflows/build-and-deploy.yml
+name: Build and Trigger Jenkins Deployment
+
+on:
+  push:
+    branches: [ master ] # Se activa con un push a la rama master
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # Permiso para escribir en el registro de paquetes
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }} # Este token es generado automáticamente
+
+      - name: Build and push Docker image
+        id: build-push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          # Se construye la imagen en el registro de tu usuario/organización
+          # y se etiqueta con el hash del commit
+          tags: ghcr.io/${{ github.repository_owner }}/yolo-api:${{ github.sha }}
+
+      - name: Trigger Jenkins Job
+        env:
+          JENKINS_URL: ${{ secrets.JENKINS_URL }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          # URL del webhook del job en Jenkins (el token 'deploy_yolo' lo configuraremos en Jenkins)
+          JENKINS_JOB_URL="${JENKINS_URL}/job/YoloAPI-Deploy/build"
+          
+          # Enviar el aviso a Jenkins con el tag de la nueva imagen en el cuerpo
+          curl -X POST "${JENKINS_JOB_URL}" \
+            --data-urlencode json="{\"parameter\": [{\"name\":\"IMAGE_TAG\", \"value\":\"${IMAGE_TAG}\"}]}" \
+            --data token=deploy_yolo
