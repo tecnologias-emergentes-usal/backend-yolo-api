@@ -3,7 +3,7 @@ name: Build and Trigger Jenkins Deployment
 
 on:
   push:
-    branches: [ master ] # Se activa con un push a la rama master
+    branches: [ main ] # Se activa con un push a main
 
 jobs:
   build-and-push:
