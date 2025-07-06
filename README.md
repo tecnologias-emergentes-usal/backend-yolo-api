@@ -126,4 +126,5 @@ YoloAPIProject/
 Desarrollado por Federico Stragliati y equipo Infraestructura.  
 [GitHub](https://github.com/federicostragliati)
 [GitHub](https://github.com/GermanUSAL)
+[GitHub](https://github.com/ramoswilly)
 
