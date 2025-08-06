@@ -5,7 +5,7 @@ modelo = YOLO("modelos/yolo11m-seg.pt")  # Cambiar por el modelo a evaluar
 # Guarda el resultado más reciente
 resultado_actual = []
 
-def procesar_imagen(ruta_imagen: str):
+def procesar_imagen(ruta_imagen: str, cam_index: str):
     global resultado_actual
     resultados = modelo(ruta_imagen)
     boxes = resultados[0].boxes
@@ -23,7 +23,11 @@ def procesar_imagen(ruta_imagen: str):
             "class_name": modelo.names[int(box.cls[0])]
         })
 
-    resultado_actual.append({"predictions": predicciones})
+    # 👇 Guardar también el índice de cámara
+    resultado_actual.append({
+        "cam_index": cam_index,
+        "predictions": predicciones
+    })
 
     # ✅ Borrar imagen luego de procesarla
     import os
@@ -32,6 +36,7 @@ def procesar_imagen(ruta_imagen: str):
         print(f"Imagen eliminada: {ruta_imagen}")
     except Exception as e:
         print(f"⚠️ No se pudo eliminar la imagen: {ruta_imagen} ({e})")
+
 
 def obtener_resultado():
     if resultado_actual:
