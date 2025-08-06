@@ -43,3 +43,4 @@ def obtener_resultado():
     	return resultado_actual.pop(0)
     else:
     	return None
+

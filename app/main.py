@@ -34,3 +34,7 @@ async def recibir_imagen(
         "mensaje": "Imagen procesada",
         "cam_index": cam_index  # 👈 Devolverlo en la respuesta
     }
+
+@app.get("/resultado")
+def resultado():
+    return obtener_resultado()
