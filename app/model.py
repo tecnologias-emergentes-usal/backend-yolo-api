@@ -1,9 +1,9 @@
 from ultralytics import YOLO
 
-modelo = YOLO("modelos/yolo11m-seg.pt")  # Cambiar por el modelo a evaluar
+modelo = YOLO("modelos/best.pt")  # Cambiar por el modelo a evaluar
 
 # Guarda el resultado más reciente
-resultado_actual = []
+resultado_actual = [] #consumir de kafka
 
 def procesar_imagen(ruta_imagen: str, cam_index: str):
     global resultado_actual
