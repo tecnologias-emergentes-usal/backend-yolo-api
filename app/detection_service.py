@@ -34,7 +34,7 @@ class YOLODetectionService:
         logger.info(f"Servicio inicializado con modelo: {self.model_path}")
     
     def _get_model_path(self) -> Path:
-        model_path = os.getenv('MODEL_PATH', 'modelos/best_agosto.pt')
+        model_path = os.getenv('MODEL_PATH', 'modelos/best_octubre.pt')
         base_dir = Path(__file__).parent.parent
         return base_dir / model_path
 
