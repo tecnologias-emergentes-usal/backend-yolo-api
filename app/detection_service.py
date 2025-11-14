@@ -15,10 +15,18 @@ class YOLODetectionService:
     def __init__(self):
         self.kafka_config = {
             'bootstrap.servers': os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092'),
-            'security.protocol': os.getenv('KAFKA_SECURITY_PROTOCOL', 'SASL_PLAINTEXT'),
-            'sasl.mechanisms': os.getenv('KAFKA_SASL_MECHANISMS', 'PLAIN'),
-            'sasl.username': os.getenv('KAFKA_SASL_USERNAME', ''),
-            'sasl.password': os.getenv('KAFKA_SASL_PASSWORD', '')
+            'auto.offset.reset': 'earliest',
+            'socket.timeout.ms': 120000,
+            'api.version.request.timeout.ms': 60000,
+            'request.timeout.ms': 60000,
+            'socket.keepalive.enable': True,
+            'reconnect.backoff.ms': 500,
+            'reconnect.backoff.max.ms': 10000,
+            'message.send.max.retries': 10,
+            'retry.backoff.ms': 1000,
+            'metadata.max.age.ms': 300000,
+            'connections.max.idle.ms': 600000,
+            'security.protocol': 'PLAINTEXT'
         }
         self.kafka_topic = os.getenv('KAFKA_TOPIC', 'predicciones')
         self.producer = Producer(self.kafka_config)
